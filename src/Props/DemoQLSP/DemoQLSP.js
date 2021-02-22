@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import GioHang from "../GioHang";
 import SanPhamDemo from "./SanPhamDemo";
 
 export default class DemoQLSP extends Component {
@@ -15,7 +16,12 @@ export default class DemoQLSP extends Component {
       rom: "64 GB",
       giaBan: 5700000,
       hinhAnh: "./img/vsphone.jpg",
-    }//Dùng object lưu trữ thông tin điện thoại chi tiết
+    },//Dùng object lưu trữ thông tin điện thoại chi tiết
+    gioHang : [
+      {
+      maSP:1,hinhAnh:'./img/applephone.jpg',tenSP:'Iphone',giaBan:1000,soLuong:1,thanhTien:2000
+    }
+  ]
   }
 
   mangSanPham = [
@@ -59,11 +65,12 @@ export default class DemoQLSP extends Component {
     },
   ];
 
+
   renderSanPham = () => {
     return this.mangSanPham.map((sp, index) => {
       return (
         <div key={index} className="col-4">
-          <SanPhamDemo sp={sp} xemCT={this.xemChiTiet} />
+          <SanPhamDemo sp={sp} xemCT={this.xemChiTiet} themGioHang = {this.themGioHang} />
           {/* <div className="card text-left">
             <img className="card-img-top" style={{height:300}} src={sp.hinhAnh} alt={sp.hinhAnh} />
             <div className="card-body">
@@ -79,6 +86,65 @@ export default class DemoQLSP extends Component {
     });
   };
 
+  //Hàm xử lý làm thay đổi state sẽ được đặt tại component chứa state
+  themGioHang = (sanPhamClick) => {
+    //Sau khi click thì tạo ra một sản phẩm giống object trong giỏ hàng
+    let spGH = {
+      maSP: sanPhamClick.maSP,
+      tenSP: sanPhamClick.tenSP,
+      giaBan: sanPhamClick.giaBan,
+      soLuong: 1,
+      hinhAnh: sanPhamClick.hinhAnh
+    }
+
+    let gioHangUpdate = [...this.state.gioHang];
+    //Xử lý kiểm tra state giỏ hàng có chứa dữ liệu sản phẩm đó khi click hay chưa => nếu có thì tăng số lượng , không có thì thêm vào
+
+    let indexSPGH = gioHangUpdate.findIndex(sp => sp.maSP === sanPhamClick.maSP);
+    if (indexSPGH !== -1) //Tìm thấy vị trí index 
+    {
+      gioHangUpdate[indexSPGH].soLuong += 1;
+    }else {
+      gioHangUpdate.push(spGH)
+    }
+
+    this.setState({
+      gioHang: gioHangUpdate
+      //gioHang: ... giỏ hàng mới
+    })
+    console.log('haha')
+    //  clg dc rồi á a,  ok anaảycam1 ơn nha
+// bi gi quen roi anh oi click không được em
+
+    // this.state.gioiHang.push(spGH)
+    // console.log(sanPhamClick);
+    // this.setState({
+    //   gioiHang: this.state.gioiHang
+    //   //gioHang: .. giỏi hàng mới
+    // })
+  }
+  
+  xoaGioHang = (sanPhamClick) => {
+
+    let gioHangUpdate = [...this.state.gioHang];
+
+    let indexGH = gioHangUpdate.findIndex(sp => sp.maSP === sanPhamClick.maSP)
+
+    if(indexGH !== -1 & gioHangUpdate[indexGH].soLuong > 1){
+      gioHangUpdate[indexGH].soLuong -= 1
+    }else if(indexGH !== -1 & gioHangUpdate[indexGH].soLuong === 1){
+      gioHangUpdate.splice(indexGH,1)
+    }else{
+      alert('Sản phẩm không tồn tại')
+    }
+
+    this.setState({
+      gioHang: gioHangUpdate
+    })
+
+    console.log('xoagiohang nè');
+  }
+
   xemChiTiet = (sanPhamClick) => {
     //setState
     console.log(sanPhamClick);
@@ -92,6 +158,9 @@ export default class DemoQLSP extends Component {
     let {hinhAnh,manHinh,heDieuHanh,ram,rom,cameraTruoc,cameraSau,tenSP} = this.state.spChiTiet;
     return (
       <div className="container">
+        <h1 className="mt-2">Giỏ Hàng</h1>
+        <GioHang gioHang={this.state.gioHang} xoaGioHang = {this.xoaGioHang} />
+        <h3 className="text-center">Danh sách sản phẩm</h3>
         <div className="row">{this.renderSanPham()}</div>
         <div className="row mt-5">
             <div className="col-4">

@@ -13,6 +13,9 @@ export default class SanPhamDemo extends Component {
             <button onClick={() => {
                 this.props.xemCT(sp);
             }} className="btn btn-primary">Xem chi tiết</button>
+            <button onClick={() => {
+                this.props.themGioHang(sp);
+            }} className="btn btn-danger">Thêm giỏ hàng</button>
           </div>
         </div>
       </div>
