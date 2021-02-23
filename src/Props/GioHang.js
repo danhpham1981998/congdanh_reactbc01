@@ -14,6 +14,7 @@ export default class GioHang extends Component {
               <th>Giá SP</th>
               <th>Số lượng</th>
               <th>Thành tiền</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
