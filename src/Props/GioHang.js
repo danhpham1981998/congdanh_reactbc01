@@ -27,7 +27,15 @@ export default class GioHang extends Component {
                     <img src={spGH.hinhAnh} width="50" height="50" />
                   </th>
                   <th>{spGH.giaBan}</th>
-                  <th>{spGH.soLuong}</th>
+                  <th>
+                    <button onClick={() => {
+                      this.props.tangGiamSoLuong(spGH.maSP,1);
+                    }} className="btn btn-primary mr-2">+</button>
+                    {spGH.soLuong}
+                    <button onClick={() => {
+                      this.props.tangGiamSoLuong(spGH.maSP,-1);
+                    }} className="btn btn-primary ml-2">-</button>
+                  </th>  
                   <th>{spGH.giaBan * spGH.soLuong}</th>
                   <th>
                     <button
@@ -43,8 +51,26 @@ export default class GioHang extends Component {
               );
             })}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="5"></td>
+              <td>Tổng tiền</td>
+              <td>{this.tinhTongTien()}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     );
   }
+
+  tinhTongTien = () => {
+    let tongTien = this.props.gioHang.reduce((tongTien,spGH,index) => {
+      tongTien += spGH.soLuong * spGH.giaBan;
+      return tongTien;
+    },0);
+  
+    return tongTien;
+  }
+
 }
+

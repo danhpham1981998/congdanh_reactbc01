@@ -19,7 +19,7 @@ export default class DemoQLSP extends Component {
     },//Dùng object lưu trữ thông tin điện thoại chi tiết
     gioHang : [
       {
-      maSP:1,hinhAnh:'./img/applephone.jpg',tenSP:'Iphone',giaBan:1000,soLuong:1,thanhTien:2000
+      maSP:1,hinhAnh:'./img/vsphone.jpg',tenSP:'Iphone',giaBan:1000,soLuong:1,thanhTien:2000
     }
   ]
   }
@@ -112,7 +112,7 @@ export default class DemoQLSP extends Component {
       gioHang: gioHangUpdate
       //gioHang: ... giỏ hàng mới
     })
-    console.log('haha')
+    console.log('Thêm giỏ hàng nè')
     //  clg dc rồi á a,  ok anaảycam1 ơn nha
 // bi gi quen roi anh oi click không được em
 
@@ -128,27 +128,49 @@ export default class DemoQLSP extends Component {
 
     let gioHangUpdate = [...this.state.gioHang];
 
-    let indexGH = gioHangUpdate.findIndex(sp => sp.maSP === sanPhamClick.maSP)
+    gioHangUpdate = gioHangUpdate.filter(sp => sp.maSP !== sanPhamClick.maSP);
 
-    if(indexGH !== -1 & gioHangUpdate[indexGH].soLuong > 1){
-      gioHangUpdate[indexGH].soLuong -= 1
-    }else if(indexGH !== -1 & gioHangUpdate[indexGH].soLuong === 1){
-      gioHangUpdate.splice(indexGH,1)
-    }else{
-      alert('Sản phẩm không tồn tại')
-    }
+
+    // let indexGH = gioHangUpdate.findIndex(sp => sp.maSP === sanPhamClick.maSP)
+
+    // if(indexGH !== -1 & gioHangUpdate[indexGH].soLuong > 1){
+    //   gioHangUpdate[indexGH].soLuong -= 1
+    // }else if(indexGH !== -1 & gioHangUpdate[indexGH].soLuong === 1){
+    //   gioHangUpdate.splice(indexGH,1)
+    // }else{
+    //   alert('Sản phẩm không tồn tại')
+    // }
 
     this.setState({
       gioHang: gioHangUpdate
     })
 
+    alert('Đã xóa mặt hàng')
+
     console.log('xoagiohang nè');
+  }
+
+  tangGiamSoLuong = (maSP,soLuong) => {
+    let gioHangUpdate = [...this.state.gioHang];
+    //Bước 1: tìm sản phảm trong giò hàng dữa vào mã sản phẩm
+    let index = gioHangUpdate.findIndex(sp => sp.maSP === maSP)
+    //Bước 2: Tăng giảm số lượng
+    if(index!==-1){
+      gioHangUpdate[index].soLuong += soLuong;
+
+      if(gioHangUpdate[index].soLuong <= 0){
+        alert('Số lượng không hợp lệ')
+        gioHangUpdate[index].soLuong -= soLuong;
+        return;
+      }
+    }
+    //Bước 3: setState cho gioHang
+    this.setState({gioHang:gioHangUpdate});
   }
 
   xemChiTiet = (sanPhamClick) => {
     //setState
-    console.log(sanPhamClick);
-
+    console.log('Xem chi tiết nè',sanPhamClick);
     this.setState({
       spChiTiet:sanPhamClick
     })
@@ -159,7 +181,7 @@ export default class DemoQLSP extends Component {
     return (
       <div className="container">
         <h1 className="mt-2">Giỏ Hàng</h1>
-        <GioHang gioHang={this.state.gioHang} xoaGioHang = {this.xoaGioHang} />
+        <GioHang gioHang={this.state.gioHang} xoaGioHang = {this.xoaGioHang} tangGiamSoLuong = {this.tangGiamSoLuong} />
         <h3 className="text-center">Danh sách sản phẩm</h3>
         <div className="row">{this.renderSanPham()}</div>
         <div className="row mt-5">
