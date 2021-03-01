@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 //Kết nối react component với redux store
 import {connect} from "react-redux";
+import { gioHangReducer } from '../../redux/reducer/GioHangReducer';
+import SanPhamRedux from './SanPhamRedux';
 
 
 class GioHangRedux extends Component {
@@ -24,9 +26,16 @@ class GioHangRedux extends Component {
                                 return <tr key={index}>
                                     <td>{spGioHang.maSP}</td>
                                     <td>{spGioHang.tenSP}</td>
-                                    <td>{spGioHang.soLuong}</td>
-                                    <td>{spGioHang.gia}</td>
-                                    <td>{spGioHang.gia * spGioHang.soLuong}</td>
+                                    <td>
+                                        <button className="btn btn-primary mr-1" onClick={() => {this.props.thayDoiSoLuong(spGioHang.maSP,1)}}>+</button>
+                                        {spGioHang.soLuong}
+                                        <button className="btn btn-primary ml-2" onClick={() => {this.props.thayDoiSoLuong(spGioHang.maSP,-1)}}>-</button>
+                                    </td>
+                                    <td>{spGioHang.giaBan}</td>
+                                    <td>{spGioHang.giaBan * spGioHang.soLuong}</td>
+                                    <td>
+                                        <button className="btn btn-danger" onClick={() => {this.props.xoaGioHang(spGioHang.maSP)}}>Xóa</button>
+                                    </td>
                                 </tr>
                             })}
                     </tbody>
@@ -46,6 +55,32 @@ const mapStateToProps = (state) => {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        thayDoiSoLuong: (maSP,soLuong) => {
+            console.log('thaydoigiohang', maSP)
+            //Tạo action
+            const action = {
+                type: 'THAY_DOI_SO_LUONG',
+                maSP:maSP,
+                soLuong:soLuong
+            }
+            //Đưa dữ liệu lên reducer
+            dispatch(action);
+        },
+        xoaGioHang: (maSP) => {
+            console.log('xóa nè', maSP);
+            //Tạo action
+            const action = {
+                type: 'XOA_GIO_HANG',
+                maSP:maSP
+            }
+            //Đưa dữ liệu lên reducer
+            dispatch(action);
+        }
+    }
+}
+
 //Kết nối giữa component và redux
 //Biến component này có chứa store redux ( nâng cao)
-export default connect(mapStateToProps)(GioHangRedux)
+export default connect(mapStateToProps, mapDispatchToProps)(GioHangRedux);

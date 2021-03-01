@@ -1,16 +1,11 @@
 import { combineReducers, createStore } from "redux";
+import { gioHangReducer } from "./reducer/GioHangReducer";
 
 
-const stateDefault = {
-    gioHang:[{maSP:1,tenSP:'Iphone',gia:1000,hinhAnh:'./img/applePhone.jpg',soLuong:1}]
-}
 
 
 const rootReducer = combineReducers ({
-    gioHangReducer: (state = stateDefault, action) => {
-        return {...state}
-    },
-    //State theo từng nghiệp vụ
+    gioHangReducer: gioHangReducer,
 });
 
 
