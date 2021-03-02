@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export default class XucXac extends Component {
     render() {
         return (
-            <div className="container">
+            <div className="container text-center mt-5">
                 <div className="row">
                     <div className="col-4">
                         <button style={{boder:'none'}} className="bg-danger">
