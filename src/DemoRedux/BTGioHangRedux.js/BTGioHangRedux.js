@@ -43,11 +43,50 @@ export default class BTGioHangRedux extends Component {
           giaBan: 27000000,
           hinhAnh: "./img/applephone.jpg",
         },
+
+        {
+            maSP: 4,
+            tenSP: "Black Berry",
+            manHinh: 'OLED, 6.5", 1242 x 2688 Pixels',
+            heDieuHanh: "iOS 12",
+            cameraSau: "Chính 12 MP & Phụ 12 MP",
+            cameraTruoc: "7 MP",
+            ram: "4 GB",
+            rom: "64 GB",
+            giaBan: 27000000,
+            hinhAnh: "./img/blackberry.jpg",
+          },
+
+          {
+            maSP: 5,
+            tenSP: "SamSung ultra 21",
+            manHinh: 'OLED, 6.5", 1242 x 2688 Pixels',
+            heDieuHanh: "iOS 12",
+            cameraSau: "Chính 12 MP & Phụ 12 MP",
+            cameraTruoc: "7 MP",
+            ram: "4 GB",
+            rom: "64 GB",
+            giaBan: 27000000,
+            hinhAnh: "./img/samsung.jpg",
+          },
+
+          {
+            maSP: 6,
+            tenSP: "Xioa Mi 10 ultra / 5G",
+            manHinh: 'OLED, 6.5", 1242 x 2688 Pixels',
+            heDieuHanh: "iOS 12",
+            cameraSau: "Chính 12 MP & Phụ 12 MP",
+            cameraTruoc: "7 MP",
+            ram: "4 GB",
+            rom: "64 GB",
+            giaBan: 27000000,
+            hinhAnh: "./img/xioa.jpg",
+          },
       ];
 
     renderSanPham = () => {
         return this.mangSanPham.map((sanPham,index) => {
-            return <div className="col-4" key={index}>
+            return <div className="col-4 mt-4" key={index}>
                 <SanPhamRedux sanPham={sanPham}/>
             </div>
         })
